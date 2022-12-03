@@ -112,8 +112,10 @@ const productos = [
     }
 ]
 
+db.createCollection("mensajes")
 db.mensajes.insertMany(mensajes)
 
+db.createCollection("productos")
 db.productos.insertMany(productos)
 ```
 
@@ -121,7 +123,7 @@ db.productos.insertMany(productos)
 
 ```
 db.productos.find()
-sb.mensajes.find()
+db.mensajes.find()
 ```
 
 4. Mostrar la cantidad de documentos almacenados en cada una de ellas.
@@ -160,15 +162,15 @@ db.productos.insertOne({nombre: "Guitarra", precio: 1499, thumbnail: "guitar.png
     ```
   - Realizar una consulta que traiga sólo el nombre del tercer producto más barato.
     ```
-    db.productos.find({ },{ title: 1, _id: 0 }).sort({ order: 1}).skip({ 2 }).limit({ 1 })
+    db.productos.find({ },{ title: 1, _id: 0 }).sort({ "price": 1}).skip({ 2 }).limit({ 1 })
     ```
   - Hacer una actualización sobre todos los productos, agregando el campo stock a todos ellos con un valor de 100.
     ```
-    db.productos.updateMany( {}, { $set: { stock: 100} } )
+    db.productos.updateMany( {}, { $set: { stock: 100} }, { multi: true })
     ```
   - Cambiar el stock a cero de los productos con precios mayores a 4000 pesos.
     ```
-    db.productos.updateMany({ price: {$gt: 4000} }, { $set: { stock: 0 } })
+    db.productos.updateMany({ price: {$gt: 4000} }, { $set: { stock: 0 } }, { multi: true })
     ```
   - Borrar los productos con precio menor a 1000 pesos
     ```
